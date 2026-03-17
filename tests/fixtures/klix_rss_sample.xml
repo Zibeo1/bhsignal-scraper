@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:media="http://search.yahoo.com/mrss/">
+  <channel>
+    <title>Klix.ba - RSS</title>
+    <item>
+      <title>Sjednica odrzana u Sarajevu o javnom prevozu</title>
+      <link>https://www.klix.ba/vijesti/bih/sjednica-odrzana-u-sarajevu-o-javnom-prevozu/260317001</link>
+      <description><![CDATA[Predstavnici institucija su razgovarali o novim mjerama.]]></description>
+      <category domain="https://www.klix.ba/vijesti">BiH</category>
+      <pubDate>Tue, 17 Mar 2026 12:00:00 +0100</pubDate>
+      <dc:creator>Pise: D. R.</dc:creator>
+      <media:content url="https://static.klix.ba/media/images/vijesti/img32_260317001.jpg" width="850"/>
+    </item>
+    <item>
+      <title>Mostar biljezi rast turistickih dolazaka</title>
+      <link>https://www.klix.ba/biznis/privreda/mostar-biljezi-rast-turistickih-dolazaka/260317002</link>
+      <description><![CDATA[U Mostaru i okolini porastao je broj nocenja.]]></description>
+      <category domain="https://www.klix.ba/biznis">Privreda</category>
+      <pubDate>Tue, 17 Mar 2026 12:10:00 +0100</pubDate>
+      <dc:creator>Pise: A. K.</dc:creator>
+    </item>
+  </channel>
+</rss>
