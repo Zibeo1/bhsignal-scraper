@@ -21,25 +21,16 @@ def _normalize(text: Optional[str]) -> str:
     return re.sub(r"\s+", " ", no_diacritics).strip()
 
 
-# Catalog location names that count as "Bosnia and Herzegovina related".
-BIH_LOCATION_NAMES = frozenset(
-    {
-        "Sarajevo",
-        "Mostar",
-        "Tuzla",
-        "Banja Luka",
-        "Zenica",
-        "Bijeljina",
-        "Lukavac",
-        "Bosnia and Herzegovina",
-    }
-)
-
-
 def _contains_alias(text: str, alias: str) -> bool:
-    if len(alias) < 3:
+    if len(alias) < 2:
         return False
-    pattern = rf"(^|[^a-z0-9]){re.escape(alias)}([^a-z0-9]|$)"
+    # Aliases of 4+ chars are treated as word stems so Bosnian inflections match
+    # (e.g. "mostar" -> "mostara", "mostaru"). Short aliases/abbreviations (ks, tk,
+    # bih, hnk) must match as standalone words to avoid false hits.
+    if len(alias) >= 4:
+        pattern = rf"(^|[^a-z0-9]){re.escape(alias)}[a-z]*([^a-z0-9]|$)"
+    else:
+        pattern = rf"(^|[^a-z0-9]){re.escape(alias)}([^a-z0-9]|$)"
     return re.search(pattern, text) is not None
 
 
@@ -50,6 +41,7 @@ class CatalogLocation:
     longitude: float
     precision: str
     aliases: list[str]
+    bosnia: bool = False
 
 
 @dataclass(frozen=True)
@@ -60,6 +52,7 @@ class ResolvedLocation:
     longitude: Optional[float]
     location_confidence: float
     precision: str
+    is_bosnia: bool = False
 
 
 class LocationResolver:
@@ -88,13 +81,14 @@ class LocationResolver:
                     longitude=float(item["longitude"]),
                     precision=item["precision"],
                     aliases=item["aliases"],
+                    bosnia=bool(item.get("bosnia", False)),
                 )
             )
         return loaded
 
     @staticmethod
     def is_bosnia(resolved: "ResolvedLocation") -> bool:
-        return resolved.location_name in BIH_LOCATION_NAMES
+        return resolved.is_bosnia
 
     def resolve(self, title: str, summary: str, category: Optional[str]) -> ResolvedLocation:
         normalized_title = _normalize(title)
@@ -137,6 +131,7 @@ class LocationResolver:
                 longitude=best_location.longitude,
                 location_confidence=round(confidence, 2),
                 precision=best_location.precision,
+                is_bosnia=best_location.bosnia,
             )
 
         fallback_target_name = self._category_fallbacks.get(normalized_category)
@@ -153,6 +148,7 @@ class LocationResolver:
                     longitude=fallback_location.longitude,
                     location_confidence=0.42,
                     precision=fallback_location.precision,
+                    is_bosnia=fallback_location.bosnia,
                 )
 
         return ResolvedLocation(

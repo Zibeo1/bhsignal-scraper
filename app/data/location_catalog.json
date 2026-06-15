@@ -1,147 +1,82 @@
 [
-  {
-    "name": "Sarajevo",
-    "latitude": 43.8563,
-    "longitude": 18.4131,
-    "precision": "city",
-    "aliases": ["sarajevo", "sarajevu", "sarajevska", "kanton sarajevo"]
-  },
-  {
-    "name": "Mostar",
-    "latitude": 43.3438,
-    "longitude": 17.8078,
-    "precision": "city",
-    "aliases": ["mostar", "mostaru", "mostarski"]
-  },
-  {
-    "name": "Tuzla",
-    "latitude": 44.5384,
-    "longitude": 18.6671,
-    "precision": "city",
-    "aliases": ["tuzla", "tuzli", "tuzlanski", "tuzlanskom"]
-  },
-  {
-    "name": "Banja Luka",
-    "latitude": 44.7722,
-    "longitude": 17.191,
-    "precision": "city",
-    "aliases": ["banja luka", "banjoj luci", "banjaluka"]
-  },
-  {
-    "name": "Zenica",
-    "latitude": 44.2034,
-    "longitude": 17.9077,
-    "precision": "city",
-    "aliases": ["zenica", "zenici", "zenicki"]
-  },
-  {
-    "name": "Bijeljina",
-    "latitude": 44.7587,
-    "longitude": 19.2144,
-    "precision": "city",
-    "aliases": ["bijeljina", "bijeljini", "bijeljinski"]
-  },
-  {
-    "name": "Lukavac",
-    "latitude": 44.5374,
-    "longitude": 18.5268,
-    "precision": "city",
-    "aliases": ["lukavac", "lukavcu", "lukavacki"]
-  },
-  {
-    "name": "Bosnia and Herzegovina",
-    "latitude": 43.9159,
-    "longitude": 17.6791,
-    "precision": "country",
-    "aliases": [
-      "bih",
-      "bosna i hercegovina",
-      "bosne i hercegovine",
-      "bosni i hercegovini"
-    ]
-  },
-  {
-    "name": "Serbia",
-    "latitude": 44.0165,
-    "longitude": 21.0059,
-    "precision": "country",
-    "aliases": ["srbija", "srbiji", "srbije", "beograd", "beogradu"]
-  },
-  {
-    "name": "Croatia",
-    "latitude": 45.1,
-    "longitude": 15.2,
-    "precision": "country",
-    "aliases": ["hrvatska", "hrvatskoj", "zagreb", "zagrebu", "split", "splita"]
-  },
-  {
-    "name": "Montenegro",
-    "latitude": 42.7087,
-    "longitude": 19.3744,
-    "precision": "country",
-    "aliases": ["crna gora", "crnoj gori", "podgorica", "podgorici"]
-  },
-  {
-    "name": "Slovenia",
-    "latitude": 46.1512,
-    "longitude": 14.9955,
-    "precision": "country",
-    "aliases": ["slovenija", "sloveniji", "ljubljana", "ljubljani"]
-  },
-  {
-    "name": "Austria",
-    "latitude": 47.5162,
-    "longitude": 14.5501,
-    "precision": "country",
-    "aliases": ["austrija", "austriji", "bec", "becu", "vienna"]
-  },
-  {
-    "name": "Germany",
-    "latitude": 51.1657,
-    "longitude": 10.4515,
-    "precision": "country",
-    "aliases": ["njemacka", "njemackoj", "berlin", "berlinu"]
-  },
-  {
-    "name": "France",
-    "latitude": 46.2276,
-    "longitude": 2.2137,
-    "precision": "country",
-    "aliases": ["francuska", "francuskoj", "pariz", "parizu"]
-  },
-  {
-    "name": "Italy",
-    "latitude": 41.8719,
-    "longitude": 12.5674,
-    "precision": "country",
-    "aliases": ["italija", "italiji", "rim", "rimu"]
-  },
-  {
-    "name": "Turkey",
-    "latitude": 38.9637,
-    "longitude": 35.2433,
-    "precision": "country",
-    "aliases": ["turska", "turskoj", "istanbul", "ankara"]
-  },
-  {
-    "name": "Ukraine",
-    "latitude": 48.3794,
-    "longitude": 31.1656,
-    "precision": "country",
-    "aliases": ["ukrajina", "ukrajini", "kijev", "kijevu"]
-  },
-  {
-    "name": "Balkans",
-    "latitude": 42.7,
-    "longitude": 22.0,
-    "precision": "region",
-    "aliases": ["balkan", "regija"]
-  },
-  {
-    "name": "World",
-    "latitude": 20.0,
-    "longitude": 0.0,
-    "precision": "global",
-    "aliases": ["svijet", "globalno"]
-  }
+  { "name": "Sarajevo", "latitude": 43.8563, "longitude": 18.4131, "precision": "city", "bosnia": true,
+    "aliases": ["sarajev", "sarajlij", "kanton sarajevo", "ks", "ilidz", "vogosc", "ilijas", "hadzic"] },
+  { "name": "Mostar", "latitude": 43.3438, "longitude": 17.8078, "precision": "city", "bosnia": true,
+    "aliases": ["mostar", "hnk"] },
+  { "name": "Tuzla", "latitude": 44.5384, "longitude": 18.6671, "precision": "city", "bosnia": true,
+    "aliases": ["tuzl", "tk"] },
+  { "name": "Banja Luka", "latitude": 44.7722, "longitude": 17.191, "precision": "city", "bosnia": true,
+    "aliases": ["banja luka", "banjaluka", "banjoj luci", "banjaluc"] },
+  { "name": "Zenica", "latitude": 44.2034, "longitude": 17.9077, "precision": "city", "bosnia": true,
+    "aliases": ["zenic", "zdk"] },
+  { "name": "Bijeljina", "latitude": 44.7587, "longitude": 19.2144, "precision": "city", "bosnia": true,
+    "aliases": ["bijeljin"] },
+  { "name": "Lukavac", "latitude": 44.5374, "longitude": 18.5268, "precision": "city", "bosnia": true,
+    "aliases": ["lukavac", "lukavc"] },
+  { "name": "Bihac", "latitude": 44.8169, "longitude": 15.8708, "precision": "city", "bosnia": true,
+    "aliases": ["bihac", "usk"] },
+  { "name": "Doboj", "latitude": 44.7331, "longitude": 18.0875, "precision": "city", "bosnia": true,
+    "aliases": ["doboj"] },
+  { "name": "Prijedor", "latitude": 44.9797, "longitude": 16.7117, "precision": "city", "bosnia": true,
+    "aliases": ["prijedor"] },
+  { "name": "Brcko", "latitude": 44.8694, "longitude": 18.8081, "precision": "city", "bosnia": true,
+    "aliases": ["brcko"] },
+  { "name": "Travnik", "latitude": 44.2264, "longitude": 17.6653, "precision": "city", "bosnia": true,
+    "aliases": ["travnik", "travnic", "sbk"] },
+  { "name": "Zvornik", "latitude": 44.3856, "longitude": 19.1026, "precision": "city", "bosnia": true,
+    "aliases": ["zvornik", "zvornic"] },
+  { "name": "Gorazde", "latitude": 43.6667, "longitude": 18.9764, "precision": "city", "bosnia": true,
+    "aliases": ["gorazd", "bpk"] },
+  { "name": "Gradacac", "latitude": 44.8775, "longitude": 18.4264, "precision": "city", "bosnia": true,
+    "aliases": ["gradacac", "gradacc"] },
+  { "name": "Cazin", "latitude": 44.9686, "longitude": 15.9436, "precision": "city", "bosnia": true,
+    "aliases": ["cazin"] },
+  { "name": "Konjic", "latitude": 43.6519, "longitude": 17.9619, "precision": "city", "bosnia": true,
+    "aliases": ["konjic"] },
+  { "name": "Livno", "latitude": 43.8269, "longitude": 17.0078, "precision": "city", "bosnia": true,
+    "aliases": ["livno", "livanjski"] },
+  { "name": "Trebinje", "latitude": 42.7113, "longitude": 18.3439, "precision": "city", "bosnia": true,
+    "aliases": ["trebinj"] },
+  { "name": "Gradiska", "latitude": 45.144, "longitude": 17.2514, "precision": "city", "bosnia": true,
+    "aliases": ["gradisk"] },
+  { "name": "Kakanj", "latitude": 44.1264, "longitude": 18.1239, "precision": "city", "bosnia": true,
+    "aliases": ["kakanj", "kaknj"] },
+  { "name": "Jajce", "latitude": 44.342, "longitude": 17.27, "precision": "city", "bosnia": true,
+    "aliases": ["jajce", "jajca", "jajcu"] },
+  { "name": "Bugojno", "latitude": 44.057, "longitude": 17.4506, "precision": "city", "bosnia": true,
+    "aliases": ["bugojn"] },
+  { "name": "Siroki Brijeg", "latitude": 43.38, "longitude": 17.59, "precision": "city", "bosnia": true,
+    "aliases": ["siroki brijeg", "sirokog brijega"] },
+  { "name": "Capljina", "latitude": 43.1167, "longitude": 17.6839, "precision": "city", "bosnia": true,
+    "aliases": ["capljin"] },
+  { "name": "Bosnia and Herzegovina", "latitude": 43.9159, "longitude": 17.6791, "precision": "country", "bosnia": true,
+    "aliases": ["bih", "bosna i hercegovin", "bosne i hercegovin", "bosni i hercegovin", "federacija bih", "republika srpsk", "rs"] },
+  { "name": "Serbia", "latitude": 44.0165, "longitude": 21.0059, "precision": "country", "bosnia": false,
+    "aliases": ["srbij", "beograd"] },
+  { "name": "Croatia", "latitude": 45.1, "longitude": 15.2, "precision": "country", "bosnia": false,
+    "aliases": ["hrvatsk", "zagreb", "split", "rijeka", "dalmacij"] },
+  { "name": "Montenegro", "latitude": 42.7087, "longitude": 19.3744, "precision": "country", "bosnia": false,
+    "aliases": ["crna gora", "crnoj gori", "podgoric"] },
+  { "name": "Slovenia", "latitude": 46.1512, "longitude": 14.9955, "precision": "country", "bosnia": false,
+    "aliases": ["slovenij", "ljubljan"] },
+  { "name": "North Macedonia", "latitude": 41.6086, "longitude": 21.7453, "precision": "country", "bosnia": false,
+    "aliases": ["makedonij", "sjeverna makedonija", "skoplje"] },
+  { "name": "Austria", "latitude": 47.5162, "longitude": 14.5501, "precision": "country", "bosnia": false,
+    "aliases": ["austrij", "bec"] },
+  { "name": "Germany", "latitude": 51.1657, "longitude": 10.4515, "precision": "country", "bosnia": false,
+    "aliases": ["njemack", "berlin"] },
+  { "name": "France", "latitude": 46.2276, "longitude": 2.2137, "precision": "country", "bosnia": false,
+    "aliases": ["francusk", "pariz"] },
+  { "name": "Italy", "latitude": 41.8719, "longitude": 12.5674, "precision": "country", "bosnia": false,
+    "aliases": ["italij", "rim"] },
+  { "name": "Turkey", "latitude": 38.9637, "longitude": 35.2433, "precision": "country", "bosnia": false,
+    "aliases": ["tursk", "istanbul", "ankara"] },
+  { "name": "Ukraine", "latitude": 48.3794, "longitude": 31.1656, "precision": "country", "bosnia": false,
+    "aliases": ["ukrajin", "kijev"] },
+  { "name": "Iran", "latitude": 32.4279, "longitude": 53.688, "precision": "country", "bosnia": false,
+    "aliases": ["iran", "teheran"] },
+  { "name": "Balkans", "latitude": 42.7, "longitude": 22.0, "precision": "region", "bosnia": false,
+    "aliases": ["balkan", "regija"] },
+  { "name": "World", "latitude": 20.0, "longitude": 0.0, "precision": "global", "bosnia": false,
+    "aliases": ["svijet", "globalno"] }
 ]
