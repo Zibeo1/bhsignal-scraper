@@ -20,6 +20,7 @@ class ScrapeResult:
     updated: int
     skipped: int
     outbox_enqueued: int
+    skipped_non_bosnia: int = 0
 
 
 class ScraperService:
@@ -28,10 +29,12 @@ class ScraperService:
         rss_client: KlixRssClient,
         location_resolver: LocationResolver,
         outbox_service: OutboxService,
+        bosnia_only: bool = False,
     ) -> None:
         self.rss_client = rss_client
         self.location_resolver = location_resolver
         self.outbox_service = outbox_service
+        self.bosnia_only = bosnia_only
 
     @staticmethod
     def _as_utc(value: datetime) -> datetime:
@@ -87,6 +90,7 @@ class ScraperService:
         updated = 0
         skipped = 0
         outbox_enqueued = 0
+        skipped_non_bosnia = 0
 
         for entry in entries:
             location = self.location_resolver.resolve(
@@ -94,6 +98,11 @@ class ScraperService:
                 summary=entry.summary,
                 category=entry.category,
             )
+
+            # Drop anything that does not resolve to a Bosnia and Herzegovina location.
+            if self.bosnia_only and not self.location_resolver.is_bosnia(location):
+                skipped_non_bosnia += 1
+                continue
 
             existing = db.scalar(
                 select(Article).where(Article.source_article_id == entry.source_article_id)
@@ -140,4 +149,5 @@ class ScraperService:
             updated=updated,
             skipped=skipped,
             outbox_enqueued=outbox_enqueued,
+            skipped_non_bosnia=skipped_non_bosnia,
         )

@@ -35,6 +35,7 @@ def _build_container(settings: Settings) -> dict:
         rss_client=rss_client,
         location_resolver=location_resolver,
         outbox_service=outbox_service,
+        bosnia_only=settings.bosnia_only,
     )
     scheduler = SchedulerCoordinator(
         scraper_service=scraper_service,

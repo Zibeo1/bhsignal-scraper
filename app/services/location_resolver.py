@@ -21,6 +21,21 @@ def _normalize(text: Optional[str]) -> str:
     return re.sub(r"\s+", " ", no_diacritics).strip()
 
 
+# Catalog location names that count as "Bosnia and Herzegovina related".
+BIH_LOCATION_NAMES = frozenset(
+    {
+        "Sarajevo",
+        "Mostar",
+        "Tuzla",
+        "Banja Luka",
+        "Zenica",
+        "Bijeljina",
+        "Lukavac",
+        "Bosnia and Herzegovina",
+    }
+)
+
+
 def _contains_alias(text: str, alias: str) -> bool:
     if len(alias) < 3:
         return False
@@ -76,6 +91,10 @@ class LocationResolver:
                 )
             )
         return loaded
+
+    @staticmethod
+    def is_bosnia(resolved: "ResolvedLocation") -> bool:
+        return resolved.location_name in BIH_LOCATION_NAMES
 
     def resolve(self, title: str, summary: str, category: Optional[str]) -> ResolvedLocation:
         normalized_title = _normalize(title)

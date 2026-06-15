@@ -36,6 +36,9 @@ class Settings(BaseSettings):
 
     location_catalog_path: str = "./app/data/location_catalog.json"
 
+    # When true, only articles resolved to a Bosnia and Herzegovina location are kept.
+    bosnia_only: bool = True
+
 
 @lru_cache
 def get_settings() -> Settings:
