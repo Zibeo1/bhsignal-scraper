@@ -1,0 +1,37 @@
+version: "3.9"
+
+services:
+  scraper-db:
+    image: postgres:16-alpine
+    container_name: geonews-scraper-db
+    environment:
+      POSTGRES_DB: scraper_db
+      POSTGRES_USER: scraper_user
+      POSTGRES_PASSWORD: scraper_pass
+    ports:
+      - "5434:5432"
+    volumes:
+      - scraper_db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U scraper_user -d scraper_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  scraper-service:
+    build:
+      context: .
+    container_name: geonews-scraper-service
+    env_file:
+      - .env.example
+    environment:
+      DATABASE_URL: postgresql+psycopg://scraper_user:scraper_pass@scraper-db:5432/scraper_db
+      SCHEDULER_ENABLED: "true"
+    ports:
+      - "8081:8081"
+    depends_on:
+      scraper-db:
+        condition: service_healthy
+
+volumes:
+  scraper_db_data:
