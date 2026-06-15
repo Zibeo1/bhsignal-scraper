@@ -55,9 +55,10 @@ class RssEntry:
     author: Optional[str]
     image_url: Optional[str]
     published_at: datetime
+    source: Optional[str] = None
 
 
-def parse_feed(xml_text: str) -> list[RssEntry]:
+def parse_feed(xml_text: str, source: Optional[str] = None) -> list[RssEntry]:
     feed = feedparser.parse(xml_text)
     items: list[RssEntry] = []
 
@@ -96,21 +97,27 @@ def parse_feed(xml_text: str) -> list[RssEntry]:
                 author=author,
                 image_url=image_url,
                 published_at=_to_datetime(published_raw),
+                source=source,
             )
         )
 
     return items
 
 
-class KlixRssClient:
+class RssNewsClient:
+    """Generic RSS source client. Each instance carries its own `source` label
+    (e.g. "klix", "crna-hronika") so entries can be attributed and deduplicated."""
+
     def __init__(
         self,
+        source: str,
         rss_url: str,
         timeout_seconds: int,
         user_agent: str,
         batch_limit: int,
         http_client: Optional[httpx.Client] = None,
     ) -> None:
+        self.source = source
         self.rss_url = rss_url
         self.timeout_seconds = timeout_seconds
         self.user_agent = user_agent
@@ -124,5 +131,9 @@ class KlixRssClient:
             headers={"User-Agent": self.user_agent},
         )
         response.raise_for_status()
-        parsed_entries = parse_feed(response.text)
+        parsed_entries = parse_feed(response.text, source=self.source)
         return parsed_entries[: self.batch_limit]
+
+
+# Backwards-compatible alias.
+KlixRssClient = RssNewsClient

@@ -4,9 +4,11 @@ Independent service that ingests Klix news, resolves location, stores normalized
 
 ## Features
 
-- pulls `https://www.klix.ba/rss`
+- pulls from multiple sources: `https://www.klix.ba/rss` and `https://crna-hronika.info/feed/`
 - extracts normalized article fields
 - resolves location against local location catalog
+- keeps only Bosnia and Herzegovina news when `bosnia_only` is enabled
+- de-duplicates the same story across sources (stemmed-token headline similarity)
 - stores data in own database
 - creates outbox events for each create/update
 - dispatches signed webhook events with retry/backoff

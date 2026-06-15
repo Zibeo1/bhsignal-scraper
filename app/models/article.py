@@ -4,7 +4,7 @@ from datetime import datetime, timezone
 from typing import Optional
 from uuid import uuid4
 
-from sqlalchemy import DateTime, Float, String, Text
+from sqlalchemy import DateTime, Float, String, Text, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.models.base import Base
@@ -12,10 +12,13 @@ from app.models.base import Base
 
 class Article(Base):
     __tablename__ = "articles"
+    __table_args__ = (
+        UniqueConstraint("source", "source_article_id", name="uq_articles_source_article"),
+    )
 
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
     source: Mapped[str] = mapped_column(String(32), nullable=False, default="klix", index=True)
-    source_article_id: Mapped[str] = mapped_column(String(64), nullable=False, unique=True, index=True)
+    source_article_id: Mapped[str] = mapped_column(String(64), nullable=False, index=True)
     url: Mapped[str] = mapped_column(String(600), nullable=False, unique=True)
     title: Mapped[str] = mapped_column(String(600), nullable=False)
     summary: Mapped[str] = mapped_column(Text, nullable=False, default="")

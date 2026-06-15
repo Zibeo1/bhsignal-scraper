@@ -18,6 +18,7 @@ class Settings(BaseSettings):
     database_url: str = "sqlite:///./data/scraper.db"
 
     klix_rss_url: str = "https://www.klix.ba/rss"
+    crna_hronika_rss_url: str = "https://crna-hronika.info/feed/"
     request_timeout_seconds: int = 20
     user_agent: str = "GeoNewsScraperBot/0.1 (+https://example.org/geonews)"
 

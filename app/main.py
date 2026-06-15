@@ -6,7 +6,7 @@ from fastapi import FastAPI
 
 from app.api.router import api_router
 from app.api.routes.health import router as health_router
-from app.clients.klix_rss_client import KlixRssClient
+from app.clients.klix_rss_client import RssNewsClient
 from app.core.config import Settings, get_settings
 from app.core.db import init_db
 from app.core.logging import configure_logging
@@ -17,12 +17,22 @@ from app.services.scraper_service import ScraperService
 
 
 def _build_container(settings: Settings) -> dict:
-    rss_client = KlixRssClient(
-        rss_url=settings.klix_rss_url,
-        timeout_seconds=settings.request_timeout_seconds,
-        user_agent=settings.user_agent,
-        batch_limit=settings.scrape_batch_limit,
-    )
+    rss_clients = [
+        RssNewsClient(
+            source="klix",
+            rss_url=settings.klix_rss_url,
+            timeout_seconds=settings.request_timeout_seconds,
+            user_agent=settings.user_agent,
+            batch_limit=settings.scrape_batch_limit,
+        ),
+        RssNewsClient(
+            source="crna-hronika",
+            rss_url=settings.crna_hronika_rss_url,
+            timeout_seconds=settings.request_timeout_seconds,
+            user_agent=settings.user_agent,
+            batch_limit=settings.scrape_batch_limit,
+        ),
+    ]
     location_resolver = LocationResolver(settings.location_catalog_path)
     outbox_service = OutboxService(
         webhook_target_url=settings.webhook_target_url,
@@ -32,7 +42,7 @@ def _build_container(settings: Settings) -> dict:
         retry_base_seconds=settings.outbox_retry_base_seconds,
     )
     scraper_service = ScraperService(
-        rss_client=rss_client,
+        rss_clients=rss_clients,
         location_resolver=location_resolver,
         outbox_service=outbox_service,
         bosnia_only=settings.bosnia_only,
@@ -48,7 +58,7 @@ def _build_container(settings: Settings) -> dict:
 
     return {
         "settings": settings,
-        "rss_client": rss_client,
+        "rss_clients": rss_clients,
         "location_resolver": location_resolver,
         "outbox_service": outbox_service,
         "scraper_service": scraper_service,
@@ -72,7 +82,8 @@ async def lifespan(app: FastAPI):
     finally:
         if settings.scheduler_enabled:
             container["scheduler"].shutdown()
-        container["rss_client"].http_client.close()
+        for client in container["rss_clients"]:
+            client.http_client.close()
 
 
 settings = get_settings()

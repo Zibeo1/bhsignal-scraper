@@ -14,8 +14,9 @@ from app.services.scraper_service import ScraperService
 
 
 class FakeRssClient:
-    def __init__(self, entries: list[RssEntry]) -> None:
+    def __init__(self, entries: list[RssEntry], source: str = "klix") -> None:
         self._entries = entries
+        self.source = source
 
     def fetch_latest(self) -> list[RssEntry]:
         return list(self._entries)
@@ -79,6 +80,58 @@ def test_scraper_inserts_and_deduplicates_items() -> None:
         outbox_count = db.scalar(select(func.count(OutboxEvent.id)))
         assert article_count == 2
         assert outbox_count == 2
+
+
+def test_scraper_dedups_same_story_across_sources() -> None:
+    catalog = Path(__file__).parents[1] / "app" / "data" / "location_catalog.json"
+    resolver = LocationResolver(str(catalog))
+    outbox = OutboxService(
+        webhook_target_url=None,
+        webhook_secret="test",
+        webhook_timeout_seconds=1,
+        max_attempts=5,
+        retry_base_seconds=1,
+    )
+
+    klix = [
+        RssEntry(
+            source_article_id="260317200",
+            url="https://www.klix.ba/vijesti/bih/x/260317200",
+            title="Velika nesreca u Sarajevu danas",
+            summary="Detalji nesrece.",
+            category="BiH",
+            author="A. A.",
+            image_url=None,
+            published_at=datetime(2026, 3, 17, 9, 0, tzinfo=timezone.utc),
+        )
+    ]
+    crna = [
+        RssEntry(
+            source_article_id="850001",
+            url="https://crna-hronika.info/velika-nesreca-sarajevo/850001",
+            title="Velika nesreca u Sarajevu",
+            summary="Vise detalja o nesreci.",
+            category=None,
+            author="B. B.",
+            image_url=None,
+            published_at=datetime(2026, 3, 17, 9, 5, tzinfo=timezone.utc),
+        )
+    ]
+
+    scraper = ScraperService(
+        [FakeRssClient(klix, "klix"), FakeRssClient(crna, "crna-hronika")],
+        resolver,
+        outbox,
+        bosnia_only=True,
+    )
+
+    with _session() as db:
+        result = scraper.run_once(db)
+        db.commit()
+
+        assert result.inserted == 1
+        assert result.skipped_duplicate == 1
+        assert db.scalar(select(func.count(Article.id))) == 1
 
 
 def test_scraper_skips_when_entry_unchanged() -> None:
