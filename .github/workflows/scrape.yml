@@ -1,20 +1,27 @@
 name: Scheduled scrape
-  on:
-    schedule:
-      - cron: "*/15 * * * *"
-    workflow_dispatch: {}
-  concurrency:
-    group: scrape
-    cancel-in-progress: false
-  jobs:
-    scrape:
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v4
-        - name: Run scraper
-          shell: pwsh
-          env:
-            WEBHOOK_SECRET: ${{ secrets.WEBHOOK_SECRET }}
-            WEBHOOK_TARGET_URL: https://bhsignal-api-production.up.railway.app/api/v1/webhooks/news
-            SCRAPE_LIMIT: "40"
-          run: ./ci/scrape.ps1
+
+on:
+  schedule:
+    # Every 15 minutes (GitHub may delay scheduled runs during peak load).
+    - cron: "*/15 * * * *"
+  workflow_dispatch: {}
+
+# Avoid overlapping runs.
+concurrency:
+  group: scrape
+  cancel-in-progress: false
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Run scraper (Klix + crna-hronika -> backend webhook)
+        shell: pwsh
+        env:
+          WEBHOOK_SECRET: ${{ secrets.WEBHOOK_SECRET }}
+          WEBHOOK_TARGET_URL: https://bhsignal-api-production.up.railway.app/api/v1/webhooks/news
+          SCRAPE_LIMIT: "40"
+        run: ./ci/scrape.ps1
